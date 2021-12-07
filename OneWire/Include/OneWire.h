@@ -276,60 +276,6 @@ private:
 #endif
 	}
 
-	// Проверка и сброс завершения пересылки и приёма данных
-/*	inline void Wait_End_Transfer ()
-	{
-		while(! (DMA1 -> ISR & ((pin == enum_USART_PIN::USART1_PA9 || pin == enum_USART_PIN::USART1_PB6)? DMA_ISR_TCIF4 : \
-									(pin == enum_USART_PIN::USART2_PA2 || pin == enum_USART_PIN::USART2_PD5)? DMA_ISR_TCIF7 : \
-									(pin == enum_USART_PIN::USART3_PC10 || pin == enum_USART_PIN::USART3_PB10 || pin == enum_USART_PIN::USART3_PD8)? DMA_ISR_TCIF2 : 0)\
-							&& (pin == enum_USART_PIN::USART1_PA9 || pin == enum_USART_PIN::USART1_PB6)? DMA_ISR_TCIF5 : \
-									(pin == enum_USART_PIN::USART2_PA2 || pin == enum_USART_PIN::USART2_PD5)? DMA_ISR_TCIF6 : \
-									(pin == enum_USART_PIN::USART3_PC10 || pin == enum_USART_PIN::USART3_PB10 || pin == enum_USART_PIN::USART3_PD8)? DMA_ISR_TCIF3 : 0))
-		{
-		}
-		DMA1 -> IFCR |= ((pin == enum_USART_PIN::USART1_PA9 || pin == enum_USART_PIN::USART1_PB6)? DMA_IFCR_CTCIF4 : \
-							(pin == enum_USART_PIN::USART2_PA2 || pin == enum_USART_PIN::USART2_PD5)? DMA_IFCR_CTCIF7 : \
-							(pin == enum_USART_PIN::USART3_PC10 || pin == enum_USART_PIN::USART3_PB10 || pin == enum_USART_PIN::USART3_PD8)? DMA_IFCR_CTCIF2 : 0)\
-						| ((pin == enum_USART_PIN::USART1_PA9 || pin == enum_USART_PIN::USART1_PB6)? DMA_IFCR_CTCIF5 : \
-							(pin == enum_USART_PIN::USART2_PA2 || pin == enum_USART_PIN::USART2_PD5)? DMA_IFCR_CTCIF6 : \
-							(pin == enum_USART_PIN::USART3_PC10 || pin == enum_USART_PIN::USART3_PB10 || pin == enum_USART_PIN::USART3_PD8)? DMA_IFCR_CTCIF3 : 0);
-	}*/
-
-	// Функция пересылки данных по шине 1-Wire
-	/*__noinline void Transfer_Data (const uint8_t* a_txdata, const bool a_txinc, uint8_t* a_rxdata, const bool a_rxinc, const uint8_t a_len)
-	{
-		// Настройка DMA
-		// Адрес канала для USART_TX
-		DMA_Channel_TypeDef* DMA_TX_adr = (pin == enum_USART_PIN::USART1_PA9 || pin == enum_USART_PIN::USART1_PB6)? DMA1_Channel4 : \
-									(pin == enum_USART_PIN::USART2_PA2 || pin == enum_USART_PIN::USART2_PD5)? DMA1_Channel7 : \
-											(pin == enum_USART_PIN::USART3_PC10 || pin == enum_USART_PIN::USART3_PB10 || pin == enum_USART_PIN::USART3_PD8)? DMA1_Channel2 : DMA1_Channel2;
-		// Адрес канала для USART_RX
-		DMA_Channel_TypeDef* DMA_RX_adr = (pin == enum_USART_PIN::USART1_PA9 || pin == enum_USART_PIN::USART1_PB6)? DMA1_Channel5 : \
-									(pin == enum_USART_PIN::USART2_PA2 || pin == enum_USART_PIN::USART2_PD5)? DMA1_Channel6 : \
-											(pin == enum_USART_PIN::USART3_PC10 || pin == enum_USART_PIN::USART3_PB10 || pin == enum_USART_PIN::USART3_PD8)? DMA1_Channel3 : 0;
-		// Останов DMA TX
-		DMA_TX_adr -> CCR &= ~DMA_CCR_EN;
-		// Останов DMA RX
-		DMA_RX_adr -> CCR &= ~DMA_CCR_EN;
-		// Адрес памяти для передачи
-		DMA_TX_adr -> CPAR = reinterpret_cast <uint32_t>(&USART1 -> DR);
-		DMA_TX_adr -> CMAR = reinterpret_cast <uint32_t> (a_txdata);
-		// Адрес памяти для передачи
-		DMA_RX_adr -> CPAR = reinterpret_cast <uint32_t>(&USART1 -> DR);
-		DMA_RX_adr -> CMAR = reinterpret_cast <uint32_t> (a_rxdata);
-		// Количество байтов для передачи
-		DMA_TX_adr -> CNDTR = a_len;
-		// Количество байтов для передачи
-		DMA_RX_adr -> CNDTR = a_len;
-		__disable_irq();
-		// Настройка и старт DMA TX
-		DMA_TX_adr -> CCR = (a_txinc)? DMA_CCR_PL_0 | DMA_CCR_MINC | DMA_CCR_DIR | DMA_CCR_EN : DMA_CCR_PL_0 | DMA_CCR_DIR | DMA_CCR_EN;
-		// Настройка и старт DMA RX
-		DMA_RX_adr -> CCR = (a_rxinc)? DMA_CCR_MINC | DMA_CCR_EN : DMA_CCR_EN;
-		__enable_irq();
-		Wait_End_Transfer();
-	}
-*/
 	// Функция сброса всех устройств на шине 1-WIRE
 	bool Reset_Presence ()
 	{
@@ -722,42 +668,5 @@ public:
 
 	//
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif /* ONEWIRE_H_ */
